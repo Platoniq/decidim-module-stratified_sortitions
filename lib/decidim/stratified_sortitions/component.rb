@@ -35,6 +35,12 @@ Decidim.register_component(:stratified_sortitions) do |component|
     resource.searchable = true
   end
 
+  component.seeds do |participatory_space|
+    require "decidim/stratified_sortitions/seeds"
+
+    Decidim::StratifiedSortitions::Seeds.new(participatory_space:).call
+  end
+
   component.register_stat :sortitions_count, primary: true, priority: Decidim::StatsRegistry::HIGH_PRIORITY do |components, start_at, end_at|
     Decidim::StratifiedSortitions::FilteredStratifiedSortitions.for(components, start_at, end_at).count
   end
