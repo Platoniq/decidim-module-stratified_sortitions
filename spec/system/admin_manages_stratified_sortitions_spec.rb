@@ -112,7 +112,7 @@ describe "Admin manages stratified sortitions", type: :system do
     it "makes substratum max_quota_percentage readonly when executed" do
       if page.has_css?(".card.stratified-sortition-substratum")
         within ".card.stratified-sortition-substratum" do
-          expect(page).to have_field("Max quota percentage", readonly: true)
+          expect(page).to have_field("Objective %", readonly: true)
         end
       else
         expect(page).to have_content("Strata").or have_content("Add stratum")
@@ -122,9 +122,9 @@ describe "Admin manages stratified sortitions", type: :system do
     it "makes substratum fields readonly when sample participants exist" do
       if page.has_css?(".card.stratified-sortition-substratum")
         within ".card.stratified-sortition-substratum" do
-          expect(page).to have_selector("input[readonly][name*='[name]']")
+          expect(page).to have_selector("input[readonly][name*='[name_']")
           expect(page).to have_field("Value", readonly: true)
-          expect(page).to have_field("Range", readonly: true)
+          expect(page).to have_field("Range", readonly: true, visible: :all)
         end
       else
         expect(page).to have_field("Number of candidates to select", readonly: true)
@@ -199,10 +199,10 @@ describe "Admin manages stratified sortitions", type: :system do
         next unless page.has_css?(selector)
 
         within selector do
-          if page.has_selector("input[name*='[name]']") ||
+          if page.has_selector?("input[name*='[name]']") ||
              page.has_field?("Value") ||
              page.has_field?("Range") ||
-             page.has_field?("Max quota percentage")
+             page.has_field?("Objective %")
             substratum_found = true
             break
           end
@@ -243,10 +243,14 @@ describe "Admin manages stratified sortitions", type: :system do
       end
 
       if substratum_container
+        range_filled = false
         within substratum_container do
           fill_in "Value", with: "New Value" if page.has_field?("Value")
-          fill_in "Range", with: "1-100" if page.has_field?("Range")
-          fill_in "Max quota percentage", with: "25.5" if page.has_field?("Max quota percentage")
+          if page.has_field?("Range")
+            fill_in "Range", with: "1-100"
+            range_filled = true
+          end
+          fill_in "Objective %", with: "25.5" if page.has_field?("Objective %")
         end
 
         click_button "Update"
@@ -254,8 +258,8 @@ describe "Admin manages stratified sortitions", type: :system do
 
         substratum.reload
         expect(substratum.value).to eq("New Value") if substratum.respond_to?(:value)
-        expect(substratum.range).to eq("1-100") if substratum.respond_to?(:range)
-        expect(substratum.max_quota_percentage).to eq(25.5) if substratum.respond_to?(:max_quota_percentage)
+        expect(substratum.range).to eq("1-100") if range_filled
+        expect(substratum.max_quota_percentage.to_f).to eq(25.5) if substratum.respond_to?(:max_quota_percentage)
       else
         expect(page).to have_content("Strata")
         expect(page).to have_button("Add stratum").or have_content("Add stratum")

@@ -9,7 +9,7 @@ on:
   pull_request:
 
 env:
-  RUBY_VERSION: 3.3.4
+  RUBY_VERSION: 3.4.7
 
 jobs:
   test-report:
@@ -46,7 +46,7 @@ jobs:
 
       - name: Install cbc and ImageMagick
         shell: "bash"
-        run: sudo apt update && sudo apt install -y coinor-cbc coinor-libcbc-dev imagemagick
+        run: sudo apt update && sudo apt install -y coinor-cbc coinor-libcbc-dev imagemagick libvips libvips-tools
 
       - name: List Chrome
         shell: "bash"

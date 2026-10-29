@@ -17,7 +17,7 @@
 
     <div class="stratified-sortition-substrata-list">
       <% form.object.substrata.each_with_index do |substratum, index| %>
-        <%= form.fields_for "[substrata][#{index}]", substratum do |substratum_form| %>
+        <%= fields_for "stratified_sortition[strata][#{form.object.id}][substrata][#{index}]", substratum do |substratum_form| %>
           <%= render "substratum",
               form: substratum_form,
               id: tabs_id_for_substratum(substratum),

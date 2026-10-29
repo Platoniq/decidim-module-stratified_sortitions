@@ -24,7 +24,7 @@ module Decidim
         def reorder(stratified_sortitions)
           case order
           when "recent"
-            stratified_sortitions.order("created_at DESC")
+            stratified_sortitions.order(created_at: :desc)
           when "random"
             stratified_sortitions.order_randomly(random_seed)
           else

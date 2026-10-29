@@ -147,7 +147,9 @@ module Decidim
         end
 
         def stratified_sortition
-          @stratified_sortition ||= Decidim::StratifiedSortitions::StratifiedSortition.find_by(id:)
+          return @stratified_sortition if defined?(@stratified_sortition)
+
+          @stratified_sortition = Decidim::StratifiedSortitions::StratifiedSortition.find_by(id:)
         end
       end
     end
