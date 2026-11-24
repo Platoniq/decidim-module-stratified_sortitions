@@ -153,6 +153,8 @@ ignore_unused:
   - 'activemodel.attributes.sample_upload.*'
   - 'activemodel.attributes.stratified_sortition.*'
   - 'activemodel.errors.messages.cannot_{add,change,delete}_*'
+  # component name, read by Decidim core from the manifest
+  - 'decidim.components.stratified_sortitions.name'
   - 'decidim.components.stratified_sortitions.settings.global.publish_sortitions'
   - 'decidim.components.stratified_sortitions.settings.step.announcement'
   - 'decidim.stratified_sortitions.admin_log.stratified_sortition.*'
