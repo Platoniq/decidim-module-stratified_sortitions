@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 ruby RUBY_VERSION
 
-DECIDIM_VERSION = { git: "https://github.com/decidim/decidim", branch: "release/0.30-stable" }.freeze
+DECIDIM_VERSION = "0.31.9"
 
 gem "decidim", DECIDIM_VERSION
 gem "decidim-stratified_sortitions", path: "."

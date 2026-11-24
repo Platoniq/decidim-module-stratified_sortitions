@@ -8,6 +8,12 @@ module Decidim
       describe StratifiedSortitionsController do
         routes { Decidim::StratifiedSortitions::AdminEngine.routes }
 
+        # Decidim mounts this engine under every space type; without the mount path
+        # of the current space, URL helpers fall back to another mount.
+        before do
+          routes.default_url_options[:script_name] = "/admin/participatory_processes/#{component.participatory_space.slug}/components/#{component.id}/manage"
+        end
+
         let(:component) { stratified_sortition.component }
         let(:stratified_sortition) { create(:stratified_sortition) }
         let(:user) { create(:user, :confirmed, :admin, organization: component.organization) }

@@ -150,6 +150,9 @@ ignore_missing:
 
 ## Consider these keys used:
 ignore_unused:
+  # component name, read by Decidim core from the manifest
+  - 'decidim.components.stratified_sortitions.name'
+  - 'activemodel.attributes.sample_upload.*'
   - 'activemodel.attributes.stratified_sortition.*'
   - 'activemodel.errors.messages.cannot_{add,change,delete}_*'
   - 'decidim.components.stratified_sortitions.settings.global.publish_sortitions'

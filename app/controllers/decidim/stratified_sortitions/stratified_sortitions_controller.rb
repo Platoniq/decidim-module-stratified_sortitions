@@ -35,11 +35,15 @@ module Decidim
       private
 
       def stratified_sortition
-        @stratified_sortition ||= search_collection.find_by(id: params[:id])
+        return @stratified_sortition if defined?(@stratified_sortition)
+
+        @stratified_sortition = search_collection.find_by(id: params[:id])
       end
 
       def stratified_sortition_scope
-        @stratified_sortition_scope ||= current_organization.scopes.find_by(id: stratified_sortition&.decidim_scope_id)
+        return @stratified_sortition_scope if defined?(@stratified_sortition_scope)
+
+        @stratified_sortition_scope = current_organization.scopes.find_by(id: stratified_sortition&.decidim_scope_id)
       end
 
       def stratified_sortitions

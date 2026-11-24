@@ -22,13 +22,13 @@ FactoryBot.define do
   end
 
   factory :stratum, class: "Decidim::StratifiedSortitions::Stratum" do
-    sequence(:name) { |n| { en: "Stratum #{n}" } }
+    sequence(:name) { |n| Decidim.available_locales.index_with { "Stratum #{n}" } }
     kind { "value" }
     stratified_sortition { association(:stratified_sortition) }
   end
 
   factory :substratum, class: "Decidim::StratifiedSortitions::Substratum" do
-    sequence(:name) { |n| { en: "Substratum #{n}" } }
+    sequence(:name) { |n| Decidim.available_locales.index_with { "Substratum #{n}" } }
     value { "A" }
     range { "0-10" }
     max_quota_percentage { "10" }
