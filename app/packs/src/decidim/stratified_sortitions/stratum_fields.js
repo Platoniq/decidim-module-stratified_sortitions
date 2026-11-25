@@ -3,7 +3,6 @@ import AutoLabelByPositionComponent from "src/decidim/admin/auto_label_by_positi
 import createLiveTextUpdateComponent from "src/decidim/forms/admin/live_text_update.component"
 import createSortList from "src/decidim/admin/sort_list.component"
 import { initializeSubstrataWrapper } from "src/decidim/stratified_sortitions/substratum_fields"
-import { createAccordion } from "src/decidim/a11y"
 
 $(() => {
   const wrapperSelector = ".stratified-sortition-strata";
@@ -147,9 +146,11 @@ $(() => {
       createSortableList();
       runComponents();
 
+      // Decidim 0.31+ builds accordions with the Stimulus "accordion" controller (createAccordion
+      // is gone from src/decidim/a11y); Stimulus connects it as soon as the attribute is present.
       const newAccordion = $newField[0].querySelector('[data-component="accordion"]');
-      if (newAccordion) {
-        try { createAccordion(newAccordion); } catch (_e) {}
+      if (newAccordion && !newAccordion.hasAttribute("data-controller")) {
+        newAccordion.setAttribute("data-controller", "accordion");
       }
 
       if (document && typeof document.dispatchEvent === "function") {

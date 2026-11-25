@@ -9,11 +9,13 @@ on:
   pull_request:
 
 env:
-  RUBY_VERSION: 3.2.2
+  RUBY_VERSION: 3.4.13
+  # Ruby 3.4.13 refuses to cache compiled code while coverage runs; the dummy app turns the bootsnap iseq cache off when SIMPLECOV is set
+  SIMPLECOV: "true"
 
 jobs:
   test-report:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     services:
       postgres:
@@ -40,25 +42,9 @@ jobs:
         with:
           ruby-version: ${{ env.RUBY_VERSION }}
       
-      - uses: nanasess/setup-chromedriver@v2
-        with:
-          chromedriver-version: 119.0.6045.105
-
       - name: Install cbc and ImageMagick
         shell: "bash"
-        run: sudo apt update && sudo apt install -y coinor-cbc coinor-libcbc-dev imagemagick
-
-      - name: List Chrome
-        shell: "bash"
-        run: apt list --installed | grep chrome
-
-      - name: Remove Chrome
-        shell: "bash"
-        run: sudo apt remove google-chrome-stable
-
-      - uses: browser-actions/setup-chrome@v1
-        with:
-          chrome-version: 119.0.6045.105
+        run: sudo apt update && sudo apt install -y coinor-cbc coinor-libcbc-dev imagemagick libvips libvips-tools
 
       - name: Recover Ruby dependency cache
         uses: actions/cache@v3
@@ -83,6 +69,11 @@ jobs:
         
       - name: Install javascript dependencies
         run: npm install
+
+      - name: Enable pgcrypto for test databases
+        run: psql -h "$DATABASE_HOST" -U "$DATABASE_USERNAME" -d template1 -c "CREATE EXTENSION IF NOT EXISTS pgcrypto;"
+        env:
+          PGPASSWORD: ${{ env.DATABASE_PASSWORD }}
 
       - name: Generate test_app
         run: |

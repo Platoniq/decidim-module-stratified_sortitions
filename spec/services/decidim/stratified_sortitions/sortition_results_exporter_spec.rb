@@ -101,14 +101,14 @@ module Decidim
           end
 
           it "has participant data starting at the fifth row" do
-            personal_ids = rows[4..].map { |row| row[0] }
+            personal_ids = rows[4..].pluck(0)
             expect(personal_ids).to include("ID001")
             expect(personal_ids).to include("ID002")
           end
 
           it "includes substratum names in the stratum column" do
             stratum_col_idx = rows[3].index("Gender")
-            substratum_values = rows[4..].map { |row| row[stratum_col_idx] }
+            substratum_values = rows[4..].pluck(stratum_col_idx)
             expect(substratum_values).to include("Woman")
             expect(substratum_values).to include("Man")
           end
@@ -177,12 +177,12 @@ module Decidim
           end
 
           it "includes personal_data_1 for each participant" do
-            ids = parsed["participants"].map { |p| p["Personal data 1 (unique identifier)"] }
+            ids = parsed["participants"].pluck("Personal data 1 (unique identifier)")
             expect(ids).to include("ID001", "ID002")
           end
 
           it "includes stratum substratum values for each participant" do
-            genders = parsed["participants"].map { |p| p["Gender"] }
+            genders = parsed["participants"].pluck("Gender")
             expect(genders).to include("Woman", "Man")
           end
         end

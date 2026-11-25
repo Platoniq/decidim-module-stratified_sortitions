@@ -195,7 +195,7 @@ module Decidim
           portfolio = stratified_sortition.panel_portfolio
 
           unless portfolio&.sampled?
-            head :unprocessable_entity
+            head :unprocessable_content
             return
           end
 
@@ -215,7 +215,9 @@ module Decidim
         end
 
         def stratified_sortition
-          @stratified_sortition ||= collection.find_by(id: params[:id])
+          return @stratified_sortition if defined?(@stratified_sortition)
+
+          @stratified_sortition = collection.find_by(id: params[:id])
         end
 
         def form_presenter
