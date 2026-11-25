@@ -317,6 +317,11 @@ GEM
       decidim-core (= 0.32.3)
     decidim-generators (0.32.3)
       decidim-core (= 0.32.3)
+    decidim-initiatives (0.32.3)
+      decidim-admin (= 0.32.3)
+      decidim-comments (= 0.32.3)
+      decidim-core (= 0.32.3)
+      decidim-verifications (= 0.32.3)
     decidim-meetings (0.32.3)
       decidim-core (= 0.32.3)
       decidim-forms (= 0.32.3)
@@ -934,6 +939,7 @@ DEPENDENCIES
   chartkick (~> 5.1.5)
   decidim (= 0.32.3)
   decidim-dev (= 0.32.3)
+  decidim-initiatives (= 0.32.3)
   decidim-stratified_sortitions!
   faker
   letter_opener_web (~> 1.3)
