@@ -8,6 +8,7 @@ Decidim::Dev.dummy_app_path = File.expand_path(File.join("spec", "decidim_dummy_
 
 require "decidim/dev/test/base_spec_helper"
 
+require_relative "support/chrome_storage_clear_fix"
 # Load support files
 Dir[File.join(__dir__, "support", "**", "*.rb")].each { |f| require f }
 
